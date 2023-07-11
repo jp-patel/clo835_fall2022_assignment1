@@ -2,10 +2,7 @@ name: Deploy to ECR
 
 on: 
   push:
-    branches: [ master ]
-  pull_request:
-    types:
-    - closed
+    branches: [ main ]
 
 jobs:
   
@@ -33,7 +30,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: clo835_week_09_assignment_02_app
-        IMAGE_TAG: v1.1
+        IMAGE_TAG: v1.0
       run: |
         ls -ltra
         # Docker build
@@ -60,7 +57,3 @@ jobs:
         echo "Pause for 10 seconds to let container start"
         sleep 10
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      
-    - name: Stop workflow on merge
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: exit 0
