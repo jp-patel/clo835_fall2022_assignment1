@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment-v2
+  namespace: app-employees
+  labels:
+    app: employees
+    version: v2
+    app.kubernetes.io/name: app-employees
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: employees
+      version: v2
+      app.kubernetes.io/name: app-employees
+  template:
+    metadata:
+      labels:
+        app: employees
+        version: v2
+        app.kubernetes.io/name: app-employees
+    spec:
+      containers:
+        - name: webapp-container
+          image: 209830628404.dkr.ecr.us-east-1.amazonaws.com/clo835_week_09_assignment_02_app:v1.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DBHOST
+              value: mysql-service.sqldb.svc.cluster.local
+            - name: DBPORT
+              value: "3306"
+            - name: DBUSER
+              value: root
+            - name: DBPWD
+              value: db_clo835
+      imagePullSecrets:
+        - name: regcred-app-employees
