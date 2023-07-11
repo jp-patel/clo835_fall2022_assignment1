@@ -8,11 +8,11 @@ metadata:
     app.kubernetes.io/name: app-employees
     app.kubernetes.io/component: frontend
 spec:
-  #type: NodePort
+  type: NodePort
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-      #nodePort: 30001
+      nodePort: 30001
   selector:
     app.kubernetes.io/name: app-employees
